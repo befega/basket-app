@@ -1,7 +1,14 @@
 import { useState } from "react";
 import "./App.css";
-import { Container, SimpleGrid, List, ThemeIcon, Stack } from "@mantine/core";
-import { IconCircleCheck } from "@tabler/icons-react";
+import {
+  Container,
+  SimpleGrid,
+  List,
+  ThemeIcon,
+  Stack,
+  Input,
+} from "@mantine/core";
+import { IconCircleCheck, IconSearch } from "@tabler/icons-react";
 import Card from "./components/card";
 
 const storeItems = [
@@ -36,6 +43,11 @@ const storeItems = [
 
 function App() {
   let [basketItems, setBasketItems] = useState([]);
+  let [searchText, setSearchText] = useState("");
+  let filteredBasketItems = basketItems.filter(
+    (storeItems) =>
+      storeItems.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0
+  );
   return (
     <Container>
       <Stack
@@ -49,6 +61,15 @@ function App() {
               : theme.colors.gray[0],
         })}
       >
+        <SimpleGrid>
+          Aranan Metin: {searchText}
+          <Input
+            icon={<IconSearch />}
+            placeholder="Arama yap"
+            radius="md"
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </SimpleGrid>
         <SimpleGrid cols={3}>
           {storeItems.map(({ name, image, price, quantity, description }) => {
             return (
@@ -75,7 +96,7 @@ function App() {
               </ThemeIcon>
             }
           >
-            {basketItems.map(({ name }, index) => (
+            {filteredBasketItems.map(({ name }, index) => (
               <List.Item key={index}>{name}</List.Item>
             ))}
           </List>
