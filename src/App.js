@@ -7,6 +7,7 @@ import {
   ThemeIcon,
   Stack,
   Input,
+  Button,
 } from "@mantine/core";
 import { IconCircleCheck, IconSearch } from "@tabler/icons-react";
 import Card from "./components/card";
@@ -44,7 +45,7 @@ const storeItems = [
 function App() {
   let [basketItems, setBasketItems] = useState([]);
   let [searchText, setSearchText] = useState("");
-  let filteredBasketItems = basketItems.filter(
+  let filteredBasketItems = storeItems.filter(
     (storeItems) =>
       storeItems.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0
   );
@@ -61,29 +62,34 @@ function App() {
               : theme.colors.gray[0],
         })}
       >
-        <SimpleGrid>
-          Aranan Metin: {searchText}
+        <SimpleGrid cols={3}>
           <Input
+            value={searchText}
             icon={<IconSearch />}
             placeholder="Arama yap"
             radius="md"
             onChange={(e) => setSearchText(e.target.value)}
           />
+          <Button color="red" onClick={() => setSearchText("")}>
+            Temizle
+          </Button>
         </SimpleGrid>
         <SimpleGrid cols={3}>
-          {storeItems.map(({ name, image, price, quantity, description }) => {
-            return (
-              <Card
-                key={name}
-                name={name}
-                image={image}
-                price={price}
-                quantity={quantity}
-                description={description}
-                onAdd={() => setBasketItems([...basketItems, { name }])}
-              />
-            );
-          })}
+          {filteredBasketItems.map(
+            ({ name, image, price, quantity, description }) => {
+              return (
+                <Card
+                  key={name}
+                  name={name}
+                  image={image}
+                  price={price}
+                  quantity={quantity}
+                  description={description}
+                  onAdd={() => setBasketItems([...basketItems, { name }])}
+                />
+              );
+            }
+          )}
         </SimpleGrid>
         <SimpleGrid>
           <List
@@ -96,7 +102,7 @@ function App() {
               </ThemeIcon>
             }
           >
-            {filteredBasketItems.map(({ name }, index) => (
+            {basketItems.map(({ name }, index) => (
               <List.Item key={index}>{name}</List.Item>
             ))}
           </List>
