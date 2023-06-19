@@ -1,18 +1,17 @@
-import { useState } from "react";
-import "./App.css";
 import {
-  Container,
-  SimpleGrid,
-  List,
-  ThemeIcon,
-  Input,
   Button,
+  Container,
   Drawer,
-  Indicator,
   Group,
-  Grid,
+  Indicator,
+  Input,
+  List,
+  SimpleGrid,
+  ThemeIcon,
 } from "@mantine/core";
 import { IconCircleCheck, IconSearch } from "@tabler/icons-react";
+import { useState } from "react";
+import "./App.css";
 import Card from "./components/card";
 
 const storeItems = [
@@ -54,78 +53,64 @@ function App() {
       storeItems.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0
   );
   return (
-    <>
-      <Container>
-        <Group>
-          <Grid>
-            <Grid.Col span={4}>1</Grid.Col>
-            <Grid.Col span={4}>2</Grid.Col>
-            <Grid.Col span={4}>3</Grid.Col>
-          </Grid>
-        </Group>
-      </Container>
-      <Container>
-        <Group>
-          <Input
-            value={searchText}
-            icon={<IconSearch />}
-            placeholder="Arama yap"
-            radius="md"
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          <Button color="red" onClick={() => setSearchText("")}>
-            Temizle
+    <Container>
+      <Group align="end" className="SearchGroup">
+        <Input
+          value={searchText}
+          icon={<IconSearch />}
+          placeholder="Arama yap"
+          radius="md"
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <Button color="red" onClick={() => setSearchText("")}>
+          Temizle
+        </Button>
+        <Indicator inline size={22} color="red" label={basketItems.length}>
+          <Button color="blue" onClick={() => setOpened(true)}>
+            Sepete Git
           </Button>
-          <Indicator inline label="15" size={16}>
-            <Button color="green" onClick={() => setOpened(true)}>
-              Sepete Git
-            </Button>
-          </Indicator>
-        </Group>
-      </Container>
-      <Container>
-        <SimpleGrid cols={3}>
-          {filteredBasketItems.map(
-            ({ name, image, price, quantity, description }) => {
-              return (
-                <Card
-                  key={name}
-                  name={name}
-                  image={image}
-                  price={price}
-                  quantity={quantity}
-                  description={description}
-                  onAdd={() => setBasketItems([...basketItems, { name }])}
-                />
-              );
-            }
-          )}
-        </SimpleGrid>
-        <Drawer
-          position="right"
-          opened={opened}
-          onClose={() => setOpened(false)}
-          title="Sepet"
-        >
-          {
-            <List
-              spacing="xs"
-              size="xs"
-              center
-              icon={
-                <ThemeIcon color="teal" size={24} radius="xl">
-                  <IconCircleCheck size="1rem" />
-                </ThemeIcon>
-              }
-            >
-              {basketItems.map(({ name }, index) => (
-                <List.Item key={index}>{name}</List.Item>
-              ))}
-            </List>
+        </Indicator>
+      </Group>
+      <SimpleGrid cols={3} className="Store">
+        {filteredBasketItems.map(
+          ({ name, image, price, quantity, description }) => {
+            return (
+              <Card
+                key={name}
+                name={name}
+                image={image}
+                price={price}
+                quantity={quantity}
+                description={description}
+                onAdd={() => setBasketItems([...basketItems, { name }])}
+              />
+            );
           }
-        </Drawer>
-      </Container>
-    </>
+        )}
+      </SimpleGrid>
+      <Drawer
+        position="right"
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Sepet"
+      >
+        <List
+          className="List"
+          spacing="xs"
+          size="xs"
+          center
+          icon={
+            <ThemeIcon color="teal" size={24} radius="xl">
+              <IconCircleCheck size="1rem" />
+            </ThemeIcon>
+          }
+        >
+          {basketItems.map(({ name }, index) => (
+            <List.Item key={index}>{name}</List.Item>
+          ))}
+        </List>
+      </Drawer>
+    </Container>
   );
 }
 
