@@ -5,10 +5,12 @@ import {
   SimpleGrid,
   List,
   ThemeIcon,
-  Stack,
   Input,
   Button,
   Drawer,
+  Indicator,
+  Group,
+  Grid,
 } from "@mantine/core";
 import { IconCircleCheck, IconSearch } from "@tabler/icons-react";
 import Card from "./components/card";
@@ -52,19 +54,18 @@ function App() {
       storeItems.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0
   );
   return (
-    <Container>
-      <Stack
-        align="flex-start"
-        justify="flex-start"
-        h={300}
-        sx={(theme) => ({
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[8]
-              : theme.colors.gray[0],
-        })}
-      >
-        <SimpleGrid cols={3}>
+    <>
+      <Container>
+        <Group>
+          <Grid>
+            <Grid.Col span={4}>1</Grid.Col>
+            <Grid.Col span={4}>2</Grid.Col>
+            <Grid.Col span={4}>3</Grid.Col>
+          </Grid>
+        </Group>
+      </Container>
+      <Container>
+        <Group>
           <Input
             value={searchText}
             icon={<IconSearch />}
@@ -75,10 +76,14 @@ function App() {
           <Button color="red" onClick={() => setSearchText("")}>
             Temizle
           </Button>
-          <Button color="blue" onClick={() => setOpened(true)}>
-            Sepete Git
-          </Button>
-        </SimpleGrid>
+          <Indicator inline label="15" size={16}>
+            <Button color="green" onClick={() => setOpened(true)}>
+              Sepete Git
+            </Button>
+          </Indicator>
+        </Group>
+      </Container>
+      <Container>
         <SimpleGrid cols={3}>
           {filteredBasketItems.map(
             ({ name, image, price, quantity, description }) => {
@@ -119,8 +124,8 @@ function App() {
             </List>
           }
         </Drawer>
-      </Stack>
-    </Container>
+      </Container>
+    </>
   );
 }
 
