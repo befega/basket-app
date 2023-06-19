@@ -1,13 +1,6 @@
 import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
 
-const CardComponent = ({
-  name,
-  image,
-  price,
-  quantity,
-  description,
-  onAdd,
-}) => {
+const CardComponent = ({ name, image, price, description, onAdd }) => {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
@@ -18,9 +11,6 @@ const CardComponent = ({
         <Text weight={500}>{name}</Text>
         <Badge color="pink" variant="light">
           {price} TL
-        </Badge>
-        <Badge color="blue" variant="light">
-          Stok: {quantity}
         </Badge>
       </Group>
 
